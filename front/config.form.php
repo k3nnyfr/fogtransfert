@@ -1,5 +1,0 @@
-<?
-
-echo "NIKOUMOUK TORA DES RIBOUKS";
-
-?>

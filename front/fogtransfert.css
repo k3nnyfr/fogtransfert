@@ -1,0 +1,43 @@
+/** fogtransfert.css
+**	Fichier de style CSS pour FOG Transfert
+**/
+
+.green
+{
+	background:#76E887;
+	color: black;
+}
+
+.orange
+{
+	background:#E8B67C;
+	color: black;
+}
+
+.red
+{
+	background:#E87C8D;
+	color: black;
+}
+
+#box{
+	
+	width: 700px;
+	font-size: 12px;
+	margin: 0 0 30px 0;
+}
+
+.lien_afficher_masquer{
+	color: #000000;
+}
+
+#contenu_green, #contenu_orange, #contenu_red{
+	padding: 10px 0 10px 10px;
+}
+
+sup {
+margin-left: -60px;
+margin-top: 155px;
+position: absolute;
+vertical-align: text-top;
+}

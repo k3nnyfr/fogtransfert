@@ -6,12 +6,12 @@
  */
 function plugin_version_fogtransfert() 
 {
-    return array('name'           => "fogtransfert",
+    return array('name'           => "FOG transfert",
                  'version'        => '0.1',
-                 'author'         => 'Alexandre GAUVRIT',
+                 'author'         => '<a href="mailto:gauvrit.alexandre@gmail.com">Alexandre GAUVRIT</a> & <a href="mailto:hello@stevencharrier.fr">Steven CHARRIER</a>',
                  'license'        => 'GPLv2+',
                  'homepage'       => 'http://www.k3nny.fr',
-                 'minGlpiVersion' => '0.83');
+                 'minGlpiVersion' => '0.80');
 }
 	
 /**
@@ -25,6 +25,7 @@ function plugin_fogtransfert_check_prerequisites()
     echo "A besoin de la version 0.80 au minimum";
     return false; 
 }	
+	
 	
 /**
  * Fonction de vérification de la configuration initiale
@@ -53,9 +54,11 @@ function plugin_init_fogtransfert()
     global $PLUGIN_HOOKS;
 
     $PLUGIN_HOOKS['csrf_compliant']['fogtransfert'] = true;
-    $PLUGIN_HOOKS['config_page']['fogtransfert'] = 'front/config.form.php';
+    $PLUGIN_HOOKS['config_page']['fogtransfert'] = 'front/index.php';
+	$PLUGIN_HOOKS['menu_entry']['fogtransfert'] = 'front/index.php';
     Plugin::registerClass('fogtransfert', array('addtabon' => array('Computer')));
     Plugin::registerClass('fogtransfert');
+	
     }
 ?>
 	
