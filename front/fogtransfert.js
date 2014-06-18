@@ -40,3 +40,10 @@ function contenu_red()
 		div.style.display = 'none';
 	}
 }
+
+function check_all_checkboxes(source) {
+  checkboxes = document.getElementsByName('checkbox[]');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}

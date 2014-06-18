@@ -6,7 +6,7 @@
  */
 function plugin_version_fogtransfert() 
 {
-    return array('name'           => "FOG transfert",
+    return array('name'           => "FOG Transfert",
                  'version'        => '0.1',
                  'author'         => '<a href="mailto:gauvrit.alexandre@gmail.com">Alexandre GAUVRIT</a> & <a href="mailto:hello@stevencharrier.fr">Steven CHARRIER</a>',
                  'license'        => 'GPLv2+',
