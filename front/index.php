@@ -1,9 +1,8 @@
 <?php
-
-include_once ('fogtransfert.inc.php');
+include_once("fogtransfert.inc.php");
 // Absolute PATH pour les lib GLPI
-define('GLPI_ROOT', getAbsolutePath());
-include (GLPI_ROOT."inc/includes.php");
+define("GLPI_ROOT", getAbsolutePath());
+include(GLPI_ROOT."inc/includes.php");
 
 Session::checkCentralAccess();
 
@@ -16,25 +15,23 @@ if(isset($_GET['fog_address']) && isset($_GET['user_db_fog']) && isset($_GET['pa
 	
 	if(!isset($_GET['fog_parameters_update']))
 	{
-		setConfiguration($fog_address,$user_db_fog,$pass_db_fog,$name_db_fog);
+		setConfiguration($fog_address, $user_db_fog, $pass_db_fog, $name_db_fog);
 	}
 	else 
 	{
-		UpdateConfiguration($fog_address,$user_db_fog,$pass_db_fog,$name_db_fog);
+		UpdateConfiguration($fog_address, $user_db_fog, $pass_db_fog, $name_db_fog);
 	}
-	header("Location: ".$_SERVER["SCRIPT_NAME"]);
 }
 else
 {
 	$config = getConfiguration();
 	if($config != null)
 	{
-		HTML::header('FOGTransfert GLPI');
-		// fogtransfert_style();
+		HTML::header('FOG Transfert plugin GLPI');
 		
 		if(testFOGconnect($config))
 		{
-			// Connexion à FOG
+			// Connexion à la base de données de FOG
 			$mysqli_fog = new mysqli($config['0']['fog_address'],$config['0']['user_db_fog'],$config['0']['pass_db_fog'],$config['0']['name_db_fog']);
 			if($mysqli_fog->connect_error)
 			{
@@ -42,15 +39,9 @@ else
 				echo "Connexion fog impossible<br>";				
 			}
 			
-			if(isset($_GET['submit']))
+			if(isset($_GET['fog_add_hosts']))
 			{
-				if(!isset($_GET['checkbox']))
-				{
-					fogtransfert_style("Connexion fog impossible");
-					echo "Erreur, aucun PC selectionné<br>";
-					redirige("index.php");
-				}
-				else
+				if(isset($_GET['checkbox']))
 				{
 					fogtransfert_style("Exportation vers FOG");
 					$checkbox = $_GET['checkbox'];
@@ -63,20 +54,24 @@ else
 						$explode = explode('||', $checkbox[$i]);
 						$name = $explode[0];
 						$mac = $explode[1];
-						$requete_ajout_host_fog = "INSERT INTO hosts VALUES ('', '".$name."', '".$name." importé depuis GLPI le ".date("d/m/Y à H:i:s", time())."', '', '0', '0', '".date("Y-m-d H:i:s", time())."', '0000-00-00 00:00:00', 'fog', '".$mac."', '', '', '', '', '', '', '', '', '')";
+						$requete_ajout_host_fog = "INSERT INTO hosts VALUES ('', '".substr($name, 0, 16)."', '".substr($name, 0, 16)." importé depuis GLPI le ".date("d/m/Y à H:i:s", time())."', '', '0', '0', '".date("Y-m-d H:i:s", time())."', '0000-00-00 00:00:00', 'fog', '".$mac."', '', '', '', '', '', '', '', '', '')";
 						$mysqli_fog->query($requete_ajout_host_fog);
 						if($mysqli_fog == true)
 						{
-								echo "<tr>"."\n";
-								echo '<td width="175">'.$name.'</td><td>adresse MAC '.strtoupper($mac).'</td>';
-								echo "</tr>"."\n";
+							echo "<tr>"."\n";
+							echo '<td width="175">'.$name.'</td><td>adresse MAC '.strtoupper($mac).'</td>';
+							echo "</tr>"."\n";
 						}
 					}
 					echo '</table>
 					<br>
-					<input type="button" onclick="location.replace(\'index.php\');" value="OK c\'est parfait !">
+					<input type="submit" onclick="location.replace(\'index.php\');" value="OK c\'est parfait !">
 					</div>
 					</div>';
+				}
+				else
+				{
+					redirection("index.php");
 				}
 			}
 			else
@@ -98,7 +93,6 @@ else
 					$fog_hostName[] = $pcs_fog['hostName'];
 					$fog_hostMAC[] = $pcs_fog['hostMAC'];
 				}
-				
 				
 				// Compteurs
 				$compteur_orange = 0;
@@ -136,11 +130,11 @@ else
 				}
 				if($compteur_orange > 0)
 				{
-						$display_orange = "block";
+					$display_orange = "block";
 				}
 				else
 				{
-						$display_orange = "none";
+					$display_orange = "none";
 				}
 				echo '</table>
 				</div>
@@ -158,7 +152,7 @@ else
 						}
 						elseif(array_search($glpi[$i]['mac'], $fog_hostMAC) == null)
 						{
-							echo substr($glpi[$i]['name'], 0, 16).' a été trouvé mais n\'est pas lié à l\'adresse MAC '.$glpi[$i]['mac'].'<br>'."\n";
+							echo substr($glpi[$i]['name'], 0, 16).' a été trouvé mais n\'est pas lié à l\'adresse MAC '.strtoupper($glpi[$i]['mac']).'<br>'."\n";
 						}
 						else
 						{
@@ -168,11 +162,11 @@ else
 				}
 				if($compteur_red > 0)
 				{
-						$display_red = "block";
+					$display_red = "block";
 				}
 				else
 				{
-						$display_red = "none";
+					$display_red = "none";
 				}
 				echo '</div>
 				</div>
@@ -181,31 +175,31 @@ else
 				<div id="contenu_red" style="display:'.$display_red.';">'."\n";
 				if($compteur_red > 0)
 				{
-						echo 'Les PCs suivants n\'ont pas été trouvés dans FOG, sélectionnez quels PCs vous souhaitez ajouter :<br><br>
-						<form action="'.$_SERVER["SCRIPT_NAME"].'?envoi" method="get">
-						<table border="0">
-						<tr>
-						<td><input type="checkbox" id="checkboxes" onclick="check_all_checkboxes(this)"> Sélectionner tous</td>
-						</tr>
-						<tr>
-						<td>&nbsp;</td>
-						</tr>'."\n";
+					echo 'Les PCs suivants n\'ont pas été trouvés dans FOG, sélectionnez quels PCs vous souhaitez ajouter :<br><br>
+					<form action="index.php" method="get">
+					<input type="hidden" name="fog_add_hosts" value="true">
+					<table border="0">
+					<tr>
+					<td><input type="checkbox" id="checkboxes" onclick="check_all_checkboxes(this)"> Sélectionner tous</td>
+					</tr>
+					<tr>
+					<td>&nbsp;</td>
+					</tr>'."\n";
 				}
 				for($i = 0; $i < sizeof($glpi); $i++)
 				{
 					if(!array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) and !in_array($glpi[$i]['mac'], $fog_hostMAC))
 					{
 						echo "<tr>"."\n";
-						echo '<td width="175"><input type="checkbox" name="checkbox[]" value="'.substr($glpi[$i]['name'], 0, 16).'||'.$glpi[$i]['mac'].'"> '.substr($glpi[$i]['name'], 0, 16).'</td><td>adresse MAC '.strtoupper($glpi[$i]['mac']).'</td>'."\n";
+						echo '<td width="175"><input type="checkbox" name="checkbox[]" value="'.$glpi[$i]['name'].'||'.$glpi[$i]['mac'].'"> '.$glpi[$i]['name'].'</td><td>adresse MAC '.strtoupper($glpi[$i]['mac']).'</td>'."\n";
 						echo "</tr>"."\n";
 					}
 				}
 				if($compteur_red > 0)
 				{
-				echo '</table>
-				<br>
-				<input type="submit" name="submit" value="Ajouter sélectionné(s)">
-				</form>'."\n";
+					echo '</table>
+					<br><input type="submit" value="Ajouter sélectionné(s)">
+					</form>'."\n";
 				}
 				echo '</div>
 				</div>'."\n";
@@ -214,14 +208,13 @@ else
 	}
 	else
 	{
-			// Aucune Configuration trouvée dans la BDD GLPI - Initialisation
-			HTML::header('FOGTransfert GLPI - Initialisation');
-			fogtransfert_style("Initialisation des paramètres FOG");
-			echo '<h3>Attention, aucune donnée n\'est renseignée dans la base de données FOG Transfert</h3><br/><br/>';
-			showForm();
+		// Mode d'installation du plugin
+		HTML::header('FOGTransfert plugin GLPI - Installation');
+		fogtransfert_style("Initialisation des paramètres de connexion à la base de données de FOG");
+		// echo "<h3>Attention, aucune donnée n'est renseignée dans la base de données FOG Transfert</h3>"."\n";
+		showForm();
 	}
 }
 
-HTML::footer();  
-
+HTML::footer();
 ?>
