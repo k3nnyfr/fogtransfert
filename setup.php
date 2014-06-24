@@ -7,9 +7,9 @@
 function plugin_version_fogtransfert() 
 {
     return array('name'           => "FOG Transfert",
-                 'version'        => '0.1',
+                 'version'        => '0.3',
                  'author'         => '<a href="mailto:gauvrit.alexandre@gmail.com">Alexandre GAUVRIT</a> & <a href="mailto:hello@stevencharrier.fr">Steven CHARRIER</a>',
-                 'license'        => 'GPLv2+',
+                 'license'        => 'AGPLv3+',
                  'homepage'       => 'http://www.k3nny.fr',
                  'minGlpiVersion' => '0.80');
 }
@@ -61,4 +61,3 @@ function plugin_init_fogtransfert()
 	
     }
 ?>
-	
