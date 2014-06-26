@@ -15,6 +15,10 @@ Plugin GLPI pour l'export des ordinateurs répertoriés dans GLPI vers un serveu
  
 **Changelog**
 
+0.3.1
+
+ - Ajout de la gestion du cas ou l'inventaire d'ordinateurs GLPI est vide
+
 0.3
  - Correction des bugs
  - Amélioration de l'interface et de l'experience utilisateur
