@@ -114,95 +114,114 @@ else
 				}
 				$compteur_green = sizeof($glpi)-$compteur_orange-$compteur_red;
 				// Compteurs
-
-				echo '<div id="box" class="green">
-				<br>&nbsp; &nbsp;<b>Déjà présents dans FOG ('.$compteur_green.')</b>&nbsp; &nbsp;<a href="#contenu_green" onclick="contenu_green()" class="lien_afficher_masquer">Afficher/Masquer</a><br><br>
-				<div id="contenu_green" style="display:none;">
-				<table border="0">'."\n";
-				for($i = 0; $i < sizeof($glpi); $i++)
+				
+				if(sizeof($glpi) < 1)
 				{
-					if(array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) and in_array($glpi[$i]['mac'], $fog_hostMAC))
+					echo '<div id="box" class="grey">
+					<br>&nbsp; &nbsp;<b>Actuellement dans FOG ('.sizeof($fog_hostName).')</b>&nbsp; &nbsp;<a href="#contenu_grey" onclick="contenu_grey()" class="lien_afficher_masquer">Afficher/Masquer</a><br><br>
+					<div id="contenu_grey" style="display:block;">
+					<table border="0">'."\n";
+					for($i = 0; $i < sizeof($fog_hostName); $i++)
 					{
 						echo "<tr>"."\n";
-						echo '<td width="175">'.substr($glpi[$i]['name'], 0, 16).'</td><td>adresse MAC '.strtoupper($glpi[$i]['mac']).'<br></td>'."\n";
+						echo '<td width="175">'.$fog_hostName[$i].'</td><td>adresse MAC '.strtoupper($fog_hostMAC[$i]).'<br></td>'."\n";
 						echo "</tr>"."\n";
 					}
-				}
-				if($compteur_orange > 0)
-				{
-					$display_orange = "block";
-				}
-				else
-				{
-					$display_orange = "none";
-				}
-				echo '</table>
-				</div>
-				</div>
-				<div id="box" class="orange">
-				<br>&nbsp; &nbsp;<b>Requièrent votre attention ('.$compteur_orange.')</b>&nbsp; &nbsp;<a href="#contenu_orange" onclick="contenu_orange()" class="lien_afficher_masquer">Afficher/Masquer</a><br><br>
-				<div id="contenu_orange" style="display:'.$display_orange.';">'."\n";
-				for($i = 0; $i < sizeof($glpi); $i++)
-				{
-					if(array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) !== array_search($glpi[$i]['mac'], $fog_hostMAC))
-					{
-						if(array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) == null)
-						{
-							echo 'L\'adresse MAC '.strtoupper($glpi[$i]['mac']).' a été trouvée mais n\'est pas liée à '.substr($glpi[$i]['name'], 0, 16).'<br>'."\n";
-						}
-						elseif(array_search($glpi[$i]['mac'], $fog_hostMAC) == null)
-						{
-							echo substr($glpi[$i]['name'], 0, 16).' a été trouvé mais n\'est pas lié à l\'adresse MAC '.strtoupper($glpi[$i]['mac']).'<br>'."\n";
-						}
-						else
-						{
-							echo substr($glpi[$i]['name'], 0, 16).', adresse MAC '.$glpi[$i]['mac'].') - Erreur inconnue<br>'."\n";
-						}
-					}
-				}
-				if($compteur_red > 0)
-				{
-					$display_red = "block";
-				}
-				else
-				{
-					$display_red = "none";
-				}
-				echo '</div>
-				</div>
-				<div id="box" class="red">
-				<br>&nbsp; &nbsp;<b>Pouvant être ajoutés à FOG ('.$compteur_red.')</b>&nbsp; &nbsp;<a href="#contenu_red" onclick="contenu_red()" class="lien_afficher_masquer">Afficher/Masquer</a><br><br>
-				<div id="contenu_red" style="display:'.$display_red.';">'."\n";
-				if($compteur_red > 0)
-				{
-					echo 'Les PCs suivants n\'ont pas été trouvés dans FOG, sélectionnez quels PCs vous souhaitez ajouter :<br><br>
-					<form action="index.php" method="get">
-					<input type="hidden" name="fog_add_hosts" value="true">
-					<table border="0">
-					<tr>
-					<td><input type="checkbox" id="checkboxes" onclick="check_all_checkboxes(this)"> Sélectionner tous</td>
-					</tr>
-					<tr>
-					<td>&nbsp;</td>
-					</tr>'."\n";
-				}
-				for($i = 0; $i < sizeof($glpi); $i++)
-				{
-					if(!array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) and !in_array($glpi[$i]['mac'], $fog_hostMAC))
-					{
-						echo "<tr>"."\n";
-						echo '<td width="175"><input type="checkbox" name="checkbox[]" value="'.$glpi[$i]['name'].'||'.$glpi[$i]['mac'].'"> '.$glpi[$i]['name'].'</td><td>adresse MAC '.strtoupper($glpi[$i]['mac']).'</td>'."\n";
-						echo "</tr>"."\n";
-					}
-				}
-				if($compteur_red > 0)
-				{
 					echo '</table>
-					<br><input type="submit" value="Ajouter sélectionné(s)">
-					</form>'."\n";
+					</div>
+					</div>'."\n";
 				}
-				echo '</div>
-				</div>'."\n";
+				else
+				{
+					echo '<div id="box" class="green">
+					<br>&nbsp; &nbsp;<b>Déjà présents dans FOG ('.$compteur_green.')</b>&nbsp; &nbsp;<a href="#contenu_green" onclick="contenu_green()" class="lien_afficher_masquer">Afficher/Masquer</a><br><br>
+					<div id="contenu_green" style="display:none;">
+					<table border="0">'."\n";
+					for($i = 0; $i < sizeof($glpi); $i++)
+					{
+						if(array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) and in_array($glpi[$i]['mac'], $fog_hostMAC))
+						{
+							echo "<tr>"."\n";
+							echo '<td width="175">'.substr($glpi[$i]['name'], 0, 16).'</td><td>adresse MAC '.strtoupper($glpi[$i]['mac']).'<br></td>'."\n";
+							echo "</tr>"."\n";
+						}
+					}
+					if($compteur_orange > 0)
+					{
+						$display_orange = "block";
+					}
+					else
+					{
+						$display_orange = "none";
+					}
+					echo '</table>
+					</div>
+					</div>
+					<div id="box" class="orange">
+					<br>&nbsp; &nbsp;<b>Requièrent votre attention ('.$compteur_orange.')</b>&nbsp; &nbsp;<a href="#contenu_orange" onclick="contenu_orange()" class="lien_afficher_masquer">Afficher/Masquer</a><br><br>
+					<div id="contenu_orange" style="display:'.$display_orange.';">'."\n";
+					for($i = 0; $i < sizeof($glpi); $i++)
+					{
+						if(array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) !== array_search($glpi[$i]['mac'], $fog_hostMAC))
+						{
+							if(array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) == null)
+							{
+								echo 'L\'adresse MAC '.strtoupper($glpi[$i]['mac']).' a été trouvée mais n\'est pas liée à '.substr($glpi[$i]['name'], 0, 16).'<br>'."\n";
+							}
+							elseif(array_search($glpi[$i]['mac'], $fog_hostMAC) == null)
+							{
+								echo substr($glpi[$i]['name'], 0, 16).' a été trouvé mais n\'est pas lié à l\'adresse MAC '.strtoupper($glpi[$i]['mac']).'<br>'."\n";
+							}
+							else
+							{
+								echo substr($glpi[$i]['name'], 0, 16).', adresse MAC '.$glpi[$i]['mac'].') - Erreur inconnue<br>'."\n";
+							}
+						}
+					}
+					if($compteur_red > 0)
+					{
+						$display_red = "block";
+					}
+					else
+					{
+						$display_red = "none";
+					}
+					echo '</div>
+					</div>
+					<div id="box" class="red">
+					<br>&nbsp; &nbsp;<b>Pouvant être ajoutés à FOG ('.$compteur_red.')</b>&nbsp; &nbsp;<a href="#contenu_red" onclick="contenu_red()" class="lien_afficher_masquer">Afficher/Masquer</a><br><br>
+					<div id="contenu_red" style="display:'.$display_red.';">'."\n";
+					if($compteur_red > 0)
+					{
+						echo 'Les PCs suivants n\'ont pas été trouvés dans FOG, sélectionnez quels PCs vous souhaitez ajouter :<br><br>
+						<form action="index.php" method="get">
+						<input type="hidden" name="fog_add_hosts" value="true">
+						<table border="0">
+						<tr>
+						<td><input type="checkbox" id="checkboxes" onclick="check_all_checkboxes(this)"> Sélectionner tous</td>
+						</tr>
+						<tr>
+						<td>&nbsp;</td>
+						</tr>'."\n";
+					}
+					for($i = 0; $i < sizeof($glpi); $i++)
+					{
+						if(!array_search(substr($glpi[$i]['name'], 0, 16), $fog_hostName) and !in_array($glpi[$i]['mac'], $fog_hostMAC))
+						{
+							echo "<tr>"."\n";
+							echo '<td width="175"><input type="checkbox" name="checkbox[]" value="'.$glpi[$i]['name'].'||'.$glpi[$i]['mac'].'"> '.$glpi[$i]['name'].'</td><td>adresse MAC '.strtoupper($glpi[$i]['mac']).'</td>'."\n";
+							echo "</tr>"."\n";
+						}
+					}
+					if($compteur_red > 0)
+					{
+						echo '</table>
+						<br><input type="submit" value="Ajouter sélectionné(s)">
+						</form>'."\n";
+					}
+					echo '</div>
+					</div>'."\n";
+				}
 			}
 		}
 	}
