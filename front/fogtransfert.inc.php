@@ -220,8 +220,8 @@ function getHttpPath()
 
 function fogtransfert_style($titre)
 {
-	echo '<link rel="stylesheet" href="fogtransfert.css" type="text/css">
-	<script type="text/javascript" src="fogtransfert.js"></script>
+	echo '<link rel="stylesheet" href="fogtransfert.css?v='.time().'" type="text/css">
+	<script type="text/javascript" src="fogtransfert.js?v='.time().'"></script>
 	
 	<h1><img src="fog-logo.png" alt="FOG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sup>Transfert</sup></h1><br><br>'."\n";
 	
