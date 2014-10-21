@@ -54,7 +54,7 @@ else
 						$explode = explode('||', $checkbox[$i]);
 						$name = $explode[0];
 						$mac = $explode[1];
-						$requete_ajout_host_fog = "INSERT INTO hosts VALUES ('', '".substr($name, 0, 16)."', '".substr($name, 0, 16)." importé depuis GLPI le ".date("d/m/Y à H:i:s", time())."', '', '0', '0', '".date("Y-m-d H:i:s", time())."', '0000-00-00 00:00:00', 'fog', '".$mac."', '', '', '', '', '', '', '', '', '')";
+						$requete_ajout_host_fog = "INSERT INTO hosts VALUES ('', '".substr($name, 0, 16)."', '".substr($name, 0, 16)." importé depuis GLPI le ".date("d/m/Y à H:i:s", time())."', '', '0', '0', '".date("Y-m-d H:i:s", time())."', '0000-00-00 00:00:00', 'fog', '".$mac."', '', '', '', '', '', '', '', '', '', '')";
 						$mysqli_fog->query($requete_ajout_host_fog);
 						if($mysqli_fog == true)
 						{
