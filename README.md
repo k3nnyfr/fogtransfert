@@ -1,6 +1,8 @@
 FOG Transfert
 ============
 
+**IMPORTANT** : This plugin is outdated and unmaintained, please use that plugin instead : https://github.com/goupil40/fogplugin-glpi
+
 Plugin GLPI pour l'export des ordinateurs répertoriés dans GLPI vers un serveur FOG
 
 * **FOG Projet** : http://www.fogproject.org/
